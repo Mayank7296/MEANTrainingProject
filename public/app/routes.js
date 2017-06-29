@@ -18,6 +18,9 @@ angular.module('appRoutes',['ngRoute'])
     //controller: 'regCtrl',
     //controllerAs: 'register'
   })
+  .when('/postadvertisment',{
+    templateUrl:'app/views/pages/users/postadver.html',
+  })
   .when('/logout',{
     templateUrl:'app/views/pages/users/logout.html',
     //controller: 'regCtrl',

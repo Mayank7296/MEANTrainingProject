@@ -1,6 +1,6 @@
-angular.module('mainController',['authServices'])
+angular.module('mainController',['authServices','postingAdServices'])
 
-.controller('mainCtrl',function(Auth, $timeout, $location, $rootScope){
+.controller('mainCtrl',function(Auth, $timeout, $location, $rootScope, $http, Item){
   var app=this;
   app.loadme=false;
 
@@ -60,6 +60,33 @@ $location.path('/logout');
 $timeout(function () {
   $location.path('/');
 }, 2000);
+};
+
+this.post_ad = function(adData){
+      app.adData.email = app.email;
+      app.adData.phone = app.phone;
+      Item.create(app.adData).then(function(data){
+        console.log(data.data.success);
+        console.log(data.data.message);
+        if(data.data.success){
+          //create success message
+          app.loading=false;
+            app.successMsg=data.data.message + '...Redirecting';
+          //redirect to home pages
+          $timeout(function(){
+              $location.path('/');
+          },2000);
+
+
+        }
+        else{
+          //create error message
+          app.loading=false;
+          app.errMsg=data.data.message;
+
+        }
+      });
+
 };
 
 

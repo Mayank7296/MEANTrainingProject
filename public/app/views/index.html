@@ -22,7 +22,7 @@
     <script src="app/controllers/mainCtrl.js"></script>
     <script src="app/services/userServices.js"></script>
     <script src="app/services/authServices.js"></script>
-
+    <script src="app/services/postingAdServices.js"></script>
     <title>Theme Template for Bootstrap</title>
 
 
@@ -50,7 +50,7 @@
             <li><a href="/about">About</a></li>
             <li><a ng-show="main.isLoggedIn" href="#" ng-click="main.logout();">Logout</a></li>
             <li><a ng-show="main.isLoggedIn" href="/profile">Hello {{main.email}}</a></li>
-              <li><a ng-show="main.isLoggedIn" href="/postad">Post an AD </a></li>
+            <li><a ng-show="main.isLoggedIn" href="/postadvertisment">Post an AD </a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

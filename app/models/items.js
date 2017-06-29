@@ -14,6 +14,7 @@ var ItemSchema = new Schema({
 //  img3 : { data: Buffer, contentType: String },
 //  img4 : { data: Buffer, contentType: String },
 //  img5 : { data: Buffer, contentType: String },
+  valid: {type: String, default: "Enable"},
   date : { type: Date, default: Date.now },
   price : {type: Number, required: true, min: 10 }
 });

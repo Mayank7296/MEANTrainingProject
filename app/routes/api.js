@@ -102,6 +102,7 @@ router.post('/itemPost',function(req,res){
         item.title = req.body.title;
         item.description = req.body.description;
         item.price = req.body.price;
+        item.img = req.body.img;
         if(req.body.phone == null || req.body.price == null || req.body.email == null || req.body.title == null || req.body.phone == "" || req.body.price == "" || req.body.email == "" || req.body.title== ""  ){
           //res.send("Please ensure that you've provided Mobile Number, Password and email address");
           res.json({success:false, message: 'Please ensure that all the required fields are set'})
