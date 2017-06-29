@@ -1,0 +1,30 @@
+{
+  "name": "training_project",
+  "version": "1.0.0",
+  "description": "Training Project for MEAN Stack Development.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "MEAN_Buying_Selling_Project_Training"
+  },
+  "keywords": [
+    "MEAN"
+  ],
+  "author": "Mayank Mit",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "jquery": "^3.2.1",
+    "mongoose": "^4.11.0",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1"
+  }
+}
