@@ -21,7 +21,7 @@ router.post('/users',function(req,res){
         user.save(function(err){
           if(err){
         //    res.send('Phone Number or Email Already Exists'+err);
-              res.json({success: false, message:"Phone Number or Email Already Exists"})
+              res.json({success: false, message:"Write Appropriate data"})
           }
           else{
             //res.send('user Created');

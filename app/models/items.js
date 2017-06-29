@@ -1,6 +1,8 @@
 var mongoose= require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt= require('bcrypt-nodejs');
+var titlize = require('mongoose-title-case');
+
 
 var ItemSchema = new Schema({
   title: { type: String, required: true },
@@ -17,6 +19,11 @@ var ItemSchema = new Schema({
   valid: {type: String, default: "Enable"},
   date : { type: Date, default: Date.now },
   price : {type: Number, required: true, min: 10 }
+});
+
+
+ItemSchema.plugin(titlize, {
+  paths: [ 'name','title' ]
 });
 
 
