@@ -91,35 +91,35 @@ router.post('/me',function(req,res){
 
 });
 
-//
-// //item adding router
-// router.post('/itemPost',function(req,res){
-//     // res.send('Testing the route connection');
-//         var item = new Item();
-//         item.name = req.body.name;
-//         item.email = req.body.email;
-//         item.phone = req.body.phone;
-//         item.title = req.body.title;
-//         item.description = req.body.description;
-//         item.price = req.body.price;
-//         if(req.body.phone == null || req.body.price == null || req.body.email == null || req.body.title == null || req.body.phone == "" || req.body.price == "" || req.body.email == "" || req.body.title== ""  ){
-//           //res.send("Please ensure that you've provided Mobile Number, Password and email address");
-//           res.json({success:false, message: 'Please ensure that all the required fields are set'})
-//         }
-//         else{
-//           item.save(function(err){
-//             if(err){
-//           //    res.send('Phone Number or Email Already Exists'+err);
-//                 res.json({success: false, message:"Please enter proper date"})
-//             }
-//             else{
-//               //res.send('user Created');
-//               res.json({success: true, message: "items successfully Created"});
-//             }
-//           });
-//         }
-//
-//        });
+
+//item adding router
+router.post('/itemPost',function(req,res){
+    // res.send('Testing the route connection');
+        var item = new Item();
+        item.name = req.body.name;
+        item.email = req.body.email;
+        item.phone = req.body.phone;
+        item.title = req.body.title;
+        item.description = req.body.description;
+        item.price = req.body.price;
+        if(req.body.phone == null || req.body.price == null || req.body.email == null || req.body.title == null || req.body.phone == "" || req.body.price == "" || req.body.email == "" || req.body.title== ""  ){
+          //res.send("Please ensure that you've provided Mobile Number, Password and email address");
+          res.json({success:false, message: 'Please ensure that all the required fields are set'})
+        }
+        else{
+          item.save(function(err){
+            if(err){
+          //    res.send('Phone Number or Email Already Exists'+err);
+                res.json({success: false, message:"Please enter proper date"})
+            }
+            else{
+              //res.send('user Created');
+              res.json({success: true, message: "items successfully Created"});
+            }
+          });
+        }
+
+       });
 
     //item search route
     return router;
