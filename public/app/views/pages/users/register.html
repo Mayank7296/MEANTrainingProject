@@ -1,9 +1,9 @@
 <div class="page-header">
   <h1>User Registration</h1>
-<form name="regForm" ng-submit="register.regUser(regData);" novalidate>
+<form name="regForm" ng-submit="register.regUser(regData, regForm.valid);" novalidate>
   <div ng-class="{'has-success':(regForm.name.$valid && !regForm.name.$pristine), 'has-error':(!regForm.name.$valid && !regForm.name.$pristine) || (regForm.$submitted && regForm.name.$invalid) }">
 
-    <label>Name*:</label>
+    <label>Name<sup>*</sup>:</label>
     <input class="form-control" type="text" name="name" placeholder="Please Enter your name" ng-model="register.regData.name" ng-pattern="/^(([a-zA-Z]{3,20})[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="30" required/>
 
     <ul class="help-block" >

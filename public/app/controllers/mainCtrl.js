@@ -65,30 +65,23 @@ $timeout(function () {
 this.post_ad = function(adData){
       app.adData.email = app.email;
       app.adData.phone = app.phone;
-      Item.create(app.adData).then(function(data){
-        console.log(data.data.success);
-        console.log(data.data.message);
-        if(data.data.success){
-          //create success message
-          app.loading=false;
+        Item.create(app.adData).then(function(data){
+          console.log(data.data.success);
+          console.log(data.data.message);
+          if(data.data.success){
+            //create success message
+            app.loading=false;
             app.successMsg=data.data.message + '...Redirecting';
           //redirect to home pages
-          $timeout(function(){
+            $timeout(function(){
               $location.path('/');
-          },2000);
-
-
-        }
-        else{
-          //create error message
-          app.loading=false;
-          app.errMsg=data.data.message;
-
-        }
-      });
-
-};
-
-
-
+            },2000);
+          }
+          else{
+            //create error message
+            app.loading=false;
+            app.errMsg=data.data.message;
+          }
+        });
+  };
 });
