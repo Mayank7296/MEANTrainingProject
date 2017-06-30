@@ -52,8 +52,7 @@ router.post('/users',function(req,res){
           if(!validPassword){
             res.json({success:false, message: 'couldnot authenticate password'});
           }else{
-            var token = jwt.sign({phone: user.phone, email:user.email}, secret, { expiresIn: '1h' });
-
+            var token = jwt.sign({phone: user.phone, email:user.email}, secret, { expiresIn: '30s' });
             res.json({success:true, message: 'User Authenticatied', token: token});
           }
 
@@ -121,6 +120,19 @@ router.post('/itemPost',function(req,res){
         }
 
        });
+
+//Routing for reloign after Session
+router.get('/renewToken/:phone', function(req, res){
+  User.findOne({ phone: req.params.phone }).select().exec(function(err, user){
+    if(err) throw err;
+    if(!user) {
+      res.json({ success: false, message: 'No user found' });
+    }else{
+      var newtoken = jwt.sign({phone: user.phone, email:user.email}, secret, { expiresIn: '1h' });
+      res.json({success:true, message: 'User Authenticatied', token: newtoken});
+    }
+  });
+});
 
     //item search route
     return router;
