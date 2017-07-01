@@ -8,6 +8,7 @@ var appRoutes = require('./app/routes/api')(router);
 var path = require('path');
 var passport = require('passport');
 var social = require('./app/passport/passport')(app, passport);
+var multer = require('multer');
 //var User = require('./app/models/user');
 
 app.use(morgan('dev'));

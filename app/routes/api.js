@@ -52,7 +52,7 @@ router.post('/users',function(req,res){
           if(!validPassword){
             res.json({success:false, message: 'couldnot authenticate password'});
           }else{
-            var token = jwt.sign({phone: user.phone, email:user.email}, secret, { expiresIn: '30s' });
+            var token = jwt.sign({phone: user.phone, email:user.email}, secret, { expiresIn: '1h' });
             res.json({success:true, message: 'User Authenticatied', token: token});
           }
 
@@ -135,5 +135,156 @@ router.get('/renewToken/:phone', function(req, res){
 });
 
     //item search route
+    router.get('/itemUpdate',function(req, res){
+      Item.find({ phone: req.decoded.phone }, function(err, item){
+        if(err) throw err;
+          if(!item){
+            res.json({success: false, message: 'No Items Found'});
+          }else{
+            res.json({ success: true, item: item});
+          }
+        });
+      });
+      router.get('/itemShow',function(req, res){
+        Item.find({ phone: { $ne: req.decoded.phone } }, function(err, items){
+          if(err) throw err;
+            if(!items){
+              res.json({ success: false, message: 'No Items Found'});
+            }else{
+              res.json({ success: true, items: items});
+            }
+          });
+        });
+
+        //Deleting items from database
+
+        router.delete('/itemDelete/:_id', function(req, res){
+          var deletedItem = req.params._id;
+          Item.findOne({ _id: deletedItem }, function(err, item){
+            if(err) throw er;
+            if(!item){
+              res.json({success: false, message:'no item found to delete'});
+            }else{
+              Item.findOneAndRemove({ _id: deletedItem }, function(err, mainItem){
+                if(err) throw err;
+                res.json({success: true});
+              });
+            }
+          });
+        });
+
+          router.get('/edit/:id', function(req, res){
+            var id = req.params.id;
+            console.log(id);
+             Item.findOne({_id: id}, function(err, item){
+               if(err) throw err;
+               if(!item){
+                 res.json({ success: false, message: 'No Item Found' });
+               }else{
+                  res.json({ success: true, item: item });
+               }
+             });
+
+          });
+
+          router.put('/edit', function(req, res) {
+            var id = req.body._id;
+
+            if(req.body.title) var newTitle = req.body.title;
+            if(req.body.description) var newDescription = req.body.description;
+            if(req.body.price) var newPrice = req.body.price;
+            if(req.body.image) var newImage = req.body.image;
+            if(req.body.valid) var newValid = req.body.valid;
+            //console.log(id + "::::" + newValid);
+            if(newTitle){
+                Item.findOne({ _id: id }, function(err, item){
+                  if(err) throw err;
+                  if(!item){
+                    res.json({sucess: false, message: 'No Item Found'});
+                  } else{
+                    item.title = newTitle;
+                    item.save(function(err){
+                      if(err) {
+                        console.log(err);
+                      }else{
+                        res.json({success: true, message: 'Title Has been Updated'});
+                      }
+                    });
+                  }
+                });
+            }
+            if(newDescription){
+                Item.findOne({ _id: id }, function(err, item){
+                  if(err) throw err;
+                  if(!item){
+                    res.json({sucess: false, message: 'No Item Found'});
+                  } else{
+                    item.description = newDescription;
+                    item.save(function(err){
+                      if(err) {
+                        console.log(err);
+                      }else{
+                        res.json({success: true, message: 'Description Has been Updated'});
+                      }
+                    });
+                  }
+                });
+            }
+            if(newPrice){
+                Item.findOne({ _id: id }, function(err, item){
+                  if(err) throw err;
+                  if(!item){
+                    res.json({sucess: false, message: 'No Item Found'});
+                  } else{
+                    item.price = newPrice;
+                    item.save(function(err){
+                      if(err) {
+                        console.log(err);
+                      }else{
+                        res.json({success: true, message: 'Title Has been Updated'});
+                      }
+                    });
+                  }
+                });
+            }
+             if(newImage){
+                Item.findOne({ _id: id }, function(err, item){
+                  if(err) throw err;
+                  if(!item){
+                    res.json({sucess: false, message: 'No Item Found'});
+                  } else{
+                    item.image = newImage;
+                    item.save(function(err){
+                      if(err) {
+                        console.log(err);
+                      }else{
+                        res.json({success: true, message: 'Title Has been Updated'});
+                      }
+                    });
+                  }
+
+                });
+            }
+            if(newValid){
+
+                Item.findOne({ _id: id }, function(err, item){
+                  if(err) throw err;
+                  if(!item){
+                    res.json({sucess: false, message: 'No Item Found'});
+                  } else{
+                    item.valid = newValid;
+                    item.save(function(err){
+                      if(err) {
+                        console.log(err);
+                      }else{
+                        res.json({success: true, message: 'Title Has been Updated'});
+                      }
+                    });
+                  }
+                });
+            }
+
+          });
+
     return router;
 }

@@ -31,9 +31,35 @@
       ***************
     </td>
   </tr>
+</table>
+</div>
 
 
-
-
+<hr>
+<h1> Items Posted for selling </h1>
+<hr>
+<br>
+<div class="panel panel-primary">
+<table class="table">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Images</th>
+    <th>Visibility</th>
+  </tr>
+  <tr ng-repeat="person in main.item | limitTo: 5">
+    <td>{{ person.title }}</td>
+    <td>{{ person.description }}</td>
+    <td>{{ person.price }}</td>
+    <td>{{ person.img }}</td>
+    <td>{{ person.valid }}</td>
+    <td>
+      <a href="/edit/{{ person._id }}">
+        <button type="button" class="btn btn-primary">Edit</button>
+      </a>
+        <button type="button" ng-click="main.deleteItem(person._id)" class="btn btn-danger">Delete</button>
+    </td>
+  </tr>
 </table>
 </div>

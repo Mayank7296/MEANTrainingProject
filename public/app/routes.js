@@ -36,6 +36,12 @@ var app = angular.module('appRoutes',['ngRoute'])
     authenticated: true
 
   })
+  .when('/edit/:id', {
+    templateUrl: 'app/views/pages/users/edit.html',
+    controller: 'editCtrl',
+    controllerAs: 'edit',
+    authenticated: true
+  })
   .when('/facebook/:token',{
     templateUrl:'app/views/pages/users/social/social.html',
     authenticated: false

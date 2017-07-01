@@ -1,4 +1,4 @@
-angular.module('mainController',['authServices','postingAdServices','userServices'])
+angular.module('mainController',['authServices','postingAdServices','userServices','fileModelDirctive'])
 
 .controller('mainCtrl',function(Auth, $timeout, $location, $rootScope, $http, Item, $interval, $window, $route, User, AuthToken){
   var app=this;
@@ -187,4 +187,257 @@ this.post_ad = function(adData){
           }
         });
   };
+
+function getItem(){
+  Item.getItems().then(function(data){
+    if(data.data.success){
+      console.log(data.data.item);
+      app.item = data.data.item;
+
+      app.loading = false;
+    } else{
+      app.errorMsg = data.data.message;
+      app.loading = false;
+    }
+  });
+
+}
+
+getItem();
+
+Item.showItems().then(function(data){
+  if(data.data.success){
+    console.log(data.data.items);
+    app.items = data.data.items;
+    app.loading = false;
+  } else{
+    app.errorMsg = data.data.message;
+    app.loading = false;
+  }
+});
+
+app.deleteItem = function(_id){
+  Item.deleteItem(_id).then(function(data){
+    if(data.data.success){
+      getItem();
+    }else{
+      app.errorMsg = data.data.message;
+    }
+  });
+};
+
+
+})
+
+.controller('editCtrl', function($scope, $routeParams, Item, $timeout){
+  var app = this;
+  $scope.titleTab = 'active';
+  app.phase1 = true;
+  Item.getItem($routeParams.id).then(function(data) {
+     if(data.data.success){
+       $scope.newTitle = data.data.item.title;
+       $scope.newDescription = data.data.item.description;
+       $scope.newPrice = data.data.item.price;
+       $scope.newValid = data.data.item.valid;
+       $scope.newImage = data.data.item.img;
+       app.id = data.data.item._id;
+     }else{
+       app.errorMsg = data.data.message;
+     }
+  });
+
+
+  app.titlePhase = function(){
+    $scope.titleTab = 'active';
+    $scope.descriptionTab = 'default';
+    $scope.priceTab = 'default';
+    $scope.imageTab = 'default';
+    $scope.validTab = 'default';
+    app.phase1 = true;
+    app.phase2 = false;
+    app.phase3 = false;
+    app.phase4 = false;
+    app.phase5 = false;
+    app.errorMsg = false;
+  }
+  app.descriptionPhase = function(){
+    $scope.titleTab = 'default';
+    $scope.descriptionTab = 'active';
+    $scope.priceTab = 'default';
+    $scope.imageTab = 'default';
+    $scope.validTab = 'default';
+    app.phase1 = false;
+    app.phase2 = true;
+    app.phase3 = false;
+    app.phase4 = false;
+    app.phase5 = false;
+    app.errorMsg = false;
+  };
+  app.pricePhase = function(){
+    $scope.titleTab = 'default';
+    $scope.descriptionTab = 'default';
+    $scope.priceTab = 'active';
+    $scope.imageTab = 'default';
+    $scope.validTab = 'default';
+    app.phase1 = false;
+    app.phase2 = false;
+    app.phase3 = true;
+    app.phase4 = false;
+    app.errorMsg = false;
+    app.phase5 = false;
+  };
+  app.imagePhase = function(){
+    $scope.titleTab = 'default';
+    $scope.descriptionTab = 'default';
+    $scope.priceTab = 'default';
+    $scope.imageTab = 'active';
+    $scope.validTab = 'default';
+    app.phase1 = false;
+    app.phase2 = false;
+    app.phase3 = false;
+    app.phase4 = true;
+    app.phase5 = false;
+    app.errorMsg = false;
+  };
+  app.validPhase = function(){
+    $scope.titleTab = 'default';
+    $scope.descriptionTab = 'default';
+    $scope.priceTab = 'default';
+    $scope.imageTab = 'default';
+    $scope.validTab = 'active';
+    app.phase1 = false;
+    app.phase2 = false;
+    app.phase3 = false;
+    app.phase4 = false;
+    app.phase5 = true;
+    app.errorMsg = false;
+  };
+
+
+  app.updateTitle = function(newTitle, valid) {
+    app.errorMsg = false;
+    app.disable = true;
+    var itemObject = {};
+    console.log(app.id + "::::" + $scope.newTitle);
+
+    if(valid){
+      itemObject._id = app.id;
+      itemObject.title = $scope.newTitle;
+      console.log(itemObject._id);
+      Item.editItem(itemObject).then(function(data){
+        if(data.data.success){
+          app.successMsg = data.data.message;
+          $timeout(function(){
+            app.successMsg = false;
+            app.disable = false;
+            app.titleForm.title.$setPristine();
+            app.titleForm.title.$setUntouched();
+          }, 2000);
+        } else{
+            app.errorMsg = data.data.message;
+            app.disable  = false;
+          }
+      });
+    } else{
+      app.errorMsg = 'please enter a proper title';
+      app.disable  = false;
+    }
+  };
+
+  app.updateDescription = function(newDescription, valid) {
+    app.errorMsg = false;
+    app.disable = true;
+    var itemObject = {};
+  //  console.log(app.id + "::::" + $scope.newDescription);
+
+    if(valid){
+      itemObject._id = app.id;
+      itemObject.description = $scope.newDescription;
+      //console.log($scope.newDescription);
+      Item.editItem(itemObject).then(function(data){
+        if(data.data.success){
+          app.successMsg = data.data.message;
+          app.successMsg = false;
+          app.disable = false;
+          $timeout(function(){
+            app.successMsg = false;
+            app.disable = false;
+            app.descriptionForm.description.$setPristine();
+            app.descriptionForm.description.$setUntouched();
+          }, 2000);
+        } else{
+            app.errorMsg = data.data.message;
+            app.disable  = false;
+          }
+      });
+    } else{
+      app.errorMsg = 'please enter a proper title';
+      app.disable  = false;
+    }
+  };
+
+  app.updatePrice = function(newPrice, valid) {
+    app.errorMsg = false;
+    app.disable = true;
+    var itemObject = {};
+  //  console.log(app.id + "::::" + $scope.newDescription);
+
+    if(valid){
+      itemObject._id = app.id;
+      itemObject.price = $scope.newPrice;
+      //console.log($scope.newDescription);
+      Item.editItem(itemObject).then(function(data){
+        if(data.data.success){
+          app.successMsg = data.data.message;
+          app.successMsg = false;
+          app.disable = false;
+          $timeout(function(){
+            app.successMsg = false;
+            app.disable = false;
+            app.priceForm.price.$setPristine();
+            app.priceForm.price.$setUntouched();
+          }, 2000);
+        } else{
+            app.errorMsg = data.data.message;
+            app.disable  = false;
+          }
+      });
+    } else{
+      app.errorMsg = 'please enter a proper Price';
+      app.disable  = false;
+    }
+  };
+
+  app.updateValid = function(newValid, valid) {
+    app.errorMsg = false;
+    app.disable = true;
+    var itemObject = {};
+  //  console.log(app.id + "::::" + $scope.newDescription);
+  console.log(valid);
+    if(valid){
+      itemObject._id = app.id;
+      itemObject.valid = $scope.newValid;
+      Item.editItem(itemObject).then(function(data){
+        if(data.data.success){
+          app.successMsg = data.data.message;
+          app.successMsg = false;
+          app.disable = false;
+          $timeout(function(){
+            app.successMsg = false;
+            app.disable = false;
+            app.validForm.valid.$setPristine();
+            app.validForm.valid.$setUntouched();
+          }, 2000);
+        } else{
+            app.errorMsg = data.data.message;
+            app.disable  = false;
+          }
+      });
+    } else{
+        app.errorMsg = 'please enter either Enable or Disable';
+        app.disable  = false;
+    }
+  };
+
+
 });

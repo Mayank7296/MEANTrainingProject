@@ -6755,3 +6755,8 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+.mythumbnail{
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+}
